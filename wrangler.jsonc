@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "my-first-worker",
+	"name": "cors",
 	"main": "src/index.js",
 	"compatibility_date": "2026-09-26",
 	"observability": {
@@ -29,13 +29,9 @@
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
 	 */
 	"vars": {
-    // "MY_VARIABLE": "production_value",
-    "_X_PROXY_WHITELIST": [
+    /* "_X_ORIGIN_WHITELIST": [
       "http://localhost:8080"
-    ]
-  },
-  "env": {
-    "MY_2": "Hi/There"
+    ] */
   },
 	/**
 	 * Static Assets

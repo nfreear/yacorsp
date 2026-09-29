@@ -40,6 +40,9 @@ export function errorBadRequestResponse () {
   });
 }
 
+/**
+ * Fallback error.
+ */
 export function errorCaughtResponse (error) {
   console.error(error);
   return new Response(error, {

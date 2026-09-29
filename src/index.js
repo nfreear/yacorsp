@@ -1,4 +1,4 @@
-import isWhiteListed from './whitelist.js';
+import { isWhitelisted, whitelistFromEnv } from './whitelist.js';
 import {
   corsProxyResponse,
   errorNotWhitelistedResponse,
@@ -7,29 +7,31 @@ import {
 } from './responses.js';
 
 /**
- * Yet Another CORS Proxy (YACORSP).
+ * Yet Another CORS Proxy (YaCorsP).
  *
  * A minimalist CORS proxy as a CloudFlare worker.
  *
- * @see https://github.com/Zibri/cloudflare-cors-anywhere
- * @see https://developers.cloudflare.com/workers/
+ * @license MIT
  */
 export default {
 	async fetch(request, env, ctx) {
+    if (!whitelistFromEnv()) {
+      return errorCaughtResponse('Missing ORIGIN_WHITELIST environment variable.\n\nCheck your configuration!');
+    }
+
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
     const proxiedUrl = params ? params.get('url') : null;
     const proxyiedOK = proxiedUrl ? new URL(proxiedUrl) : null;
     const isGetMethod = request.method === 'GET';
     const isProxyPath = url.pathname === '/proxy';
-    // console.debug('Request:', request.method, request.url);
 
-    // We have a valid 'proxiedUrl'.
+    // We have a valid "proxiedUrl".
     if (isProxyPath && isGetMethod && proxyiedOK) {
       const origin = request.headers.get('Origin') || request.headers.get('X-Origin');
-      console.debug('Proxy - whitelist?', proxiedUrl, origin, !!isWhiteListed(origin));
+      console.debug('Proxy - whitelist?', proxiedUrl, origin, !!isWhitelisted(origin));
 
-      if (!origin || isWhiteListed(origin)) {
+      if (!origin || isWhitelisted(origin)) {
         // Yay! The origin is whitelisted.
         try {
           const response = await fetch(proxiedUrl);

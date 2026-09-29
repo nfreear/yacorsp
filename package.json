@@ -1,7 +1,10 @@
 {
-  "name": "yacorsp",
-  "version": "0.0.0",
+  "name": "ya-cors-pr",
+  "version": "0.8.0",
   "private": true,
+  "exports": {
+    ".": "src/index.js"
+  },
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
@@ -14,5 +17,18 @@
     "servor": "^4.0.2",
     "vitest": "~4.1.0",
     "wrangler": "^4.143.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nfreear/yacorsp.git"
+  },
+  "description": "Yet Another CORS Proxy, via a Cloudflare worker",
+  "keywords": [
+    "cors",
+    "proxy",
+    "cloudflare",
+    "worker"
+  ],
+  "author": "Nick Freear",
+  "license": "MIT"
 }
